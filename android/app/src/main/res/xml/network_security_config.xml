@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <domain-config>
+        <domain includeSubdomains="true">redirect.networkbench.com</domain>
+        <domain includeSubdomains="true">dc1.networkbench.com</domain>
+        <trust-anchors>
+            <certificates src="@raw/charles_ssl_proxying_certificate"/>
+        </trust-anchors>
+    </domain-config>
+</network-security-config>
