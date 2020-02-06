@@ -13,11 +13,14 @@ import {
   ScrollView,
   View,
   Button,
+  Linking,
   Text,
   StatusBar,
 } from 'react-native';
 import{Newlens,} from 'hopezjy';
-const newlensClient = new Newlens("094e27493fb54536bee392598b1a4544")
+var key_ea = "017f459cfc3a487e9bdc0264cb8ba511";
+var key_saas = "094e27493fb54536bee392598b1a4544";
+const newlensClient = new Newlens(key_ea);
 
 import {
   Header,
@@ -36,9 +39,10 @@ function testMe(){
     }
 }
 function testError(){
-    newlensClient.notify(null,{"mError":"！@#￥%……&*（）"})
+    var e = new Error("6666")
+    newlensClient.notify(e,{"mError":"！@#￥%……&*（）"})
 }
-
+const url="http://www.meituan.com";
 const App: () => React$Node = () => {
   return (
     <>
@@ -56,6 +60,11 @@ const App: () => React$Node = () => {
           <View style={styles.body}>
             <View style={styles.sectionContainer}>
               <Text style={styles.sectionTitle}>Step One</Text>
+              <Button
+                            onPress={testMe()}
+                            title="test error"
+                            color="#777700"
+                            accessibilityLabel="Learn more abou"/>
               <Text style={styles.sectionDescription}>
                 Edit <Text style={styles.highlight}>App.js</Text> to change this
                 screen and then come back to see your edits.
@@ -63,21 +72,26 @@ const App: () => React$Node = () => {
             </View>
             <View style={styles.sectionContainer}>
               <Text style={styles.sectionTitle}>See Your Changes</Text>
+              <Button
+              onPress={testError()}
+              title="test custom error"
+              color="#777700"
+              accessibilityLabel="Learn more abou"/>
               <Text style={styles.sectionDescription}>
                 <ReloadInstructions />
               </Text>
             </View>
             <View style={styles.sectionContainer}>
-            <Button
-            onPress={testError()}
-            title="test exception=null"
-              color="#841584"
-              accessibilityLabel="Learn more abou"/>
               <Button
-                          onPress={testMe()}
-                          title="test custom error"
-                            color="#841500"
+                          onPress={()=>{Linking.getInitialURL().then((url) => {
+                                            if (url) {
+                                              console.log('Initial url is: ' + url);
+                                            }
+                                          }).catch(err => console.error('An error occurred', err));}}
+                          title="test link"
+                            color="#555555"
                             accessibilityLabel="Learn more abou"/>
+
               <Text style={styles.sectionTitle}>Debug</Text>
               <Text style={styles.sectionDescription}>
                 <DebugInstructions />
