@@ -6,7 +6,8 @@
  * @flow
  */
 
-import React from 'react';
+import React,{ Component } from 'react';
+import DemoButton from './CustomButton';
 import {
   SafeAreaView,
   StyleSheet,
@@ -16,11 +17,12 @@ import {
   Linking,
   Text,
   StatusBar,
+  Alert,
 } from 'react-native';
 import{Newlens,} from 'hopezjy';
-var key_ea = "017f459cfc3a487e9bdc0264cb8ba511";
-var key_saas = "094e27493fb54536bee392598b1a4544";
-const newlensClient = new Newlens(key_ea);
+//var key_ea = "017f459cfc3a487e9bdc0264cb8ba511";
+//var key_saas = "094e27493fb54536bee392598b1a4544";
+//const newlensClient = new Newlens(key_saas);
 
 import {
   Header,
@@ -42,112 +44,25 @@ function testError(){
     var e = new Error("6666")
     newlensClient.notify(e,{"mError":"！@#￥%……&*（）"})
 }
+
 const url="http://www.meituan.com";
-const App: () => React$Node = () => {
-  return (
-    <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )}
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Step One</Text>
-              <Button
-                            onPress={testMe()}
-                            title="test error"
-                            color="#777700"
-                            accessibilityLabel="Learn more abou"/>
-              <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edits.
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Button
-              onPress={testError()}
-              title="test custom error"
-              color="#777700"
-              accessibilityLabel="Learn more abou"/>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Button
-                          onPress={()=>{Linking.getInitialURL().then((url) => {
-                                            if (url) {
-                                              console.log('Initial url is: ' + url);
-                                            }
-                                          }).catch(err => console.error('An error occurred', err));}}
-                          title="test link"
-                            color="#555555"
-                            accessibilityLabel="Learn more abou"/>
+const e = new Error("test type value");
+const eMessage=new Error("touchableHandlePress@http://localhost:8081/index.bundle?platform=android&dev=true&minify=false:52833:47\ntouchableHandlePress@[native code]\n_performSideEffectsForTransition@http://localhost:8081/index.bundle?platform=android&dev=true&minify=false:52355:36\n_performSideEffectsForTransition@[native code]\n_receiveSignal@http://localhost:8081/index.bundle?platform=android&dev=true&minify=false:52281:46\n_receiveSignal@[native code]\ntouchableHandleResponderRelease@http://localhost:8081/index.bundle?platform=android&dev=true&minify=false:52160:26\ntouchableHandleResponderRelease@[native code]\ninvokeGuardedCallbackImpl@http://localhost:8081/index.bundle?platform=android&dev=true&minify=false:9049:21\ninvokeGuardedCallback@http://localhost:8081/index.bundle?platform=android&dev=true&minify=false:9145:42\ninvokeGuardedCallbackAndCatchFirstError@http://localhost:8081/index.bundle?platform=android&dev=true&minify=false:9149:36");
+export default class TestCustomError extends Component {
 
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
+    render(){
+        return (
+            <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+<Button title="test message长度" color="#841009" onPress={()=>{newlensClient.notify(eMessage,{"key":"long message"})}}/>
+<Button title="test exception with null message" color="#123456" onPress={()=>{newlensClient.notify(new Error(null),{"key":null})}}/>
+<Button title="test message" color="#bbbbbb" onPress={()=>{newlensClient.notify("meeeeesage",e,{"key":null})}}/>
+<Button title="test metaData value null" onPress={()=>{newlensClient.notify(e,{"key":null})}}/>
+<Button title="test metaData null" color="#777777" onPress={()=>{newlensClient.notify(e,null)}}/>
+<Button title="test exception null" color="#888888" onPress={()=>{newlensClient.notify("",{"key":"value"})}}/>
+                <DemoButton/>
             </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
-            <LearnMoreLinks />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </>
-  );
-};
 
-const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
-  },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
-  body: {
-    backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
-  },
-});
+        );
+    }
+}
 
-export default App;
