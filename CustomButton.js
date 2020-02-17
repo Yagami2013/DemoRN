@@ -1,9 +1,13 @@
 import React,{Component} from 'react';
-import {Button,View} from 'react-native';
-import{Newlens,} from 'hopezjy';
-var key_ea = "017f459cfc3a487e9bdc0264cb8ba511";
-var key_saas = "094e27493fb54536bee392598b1a4544";
-const newlensClient = new Newlens();
+import {Button,AppRegistry,View,ScrollView,StyleSheet} from 'react-native';
+import RNTingyunApp from 'react-native-tingyunApp';
+const newlensClient=new RNTingyunApp();
+// import{Newlens,} from 'hopezjy';
+// const newlensClient = new Newlens();
+
+// var key_ea = "017f459cfc3a487e9bdc0264cb8ba511";
+// var key_saas = "094e27493fb54536bee392598b1a4544";
+// const newlensClient = new Newlens("192.168.2.100:8081",key_ea,true);
 
 function MyError(msg){
     this.name="MyError";
@@ -24,67 +28,67 @@ class ValidationError extends Error{
 class CustomButton extends Button {
     render(){
         return (
-            <View style={{alignItems: 'center', marginTop: 10}}>
+            <View style={{marginTop: 5, width: 300}}>
                 <Button
                 title={this.props.title}
-                color="#123321"
-                onPress={()=>{
-                newlensClient.notify(new Error("an error"),{"button_id":this.props.title})}}/>
+                onPress={this.props.onPress}/>
             </View>
         );
     }
 }
-class CRButton extends Button{
+let e = new Error("common msg");
+let meta = {"key":"123"};
+function createString(l){
+    let m='';
+    for(let i=0;i<l-1;i++){
+        m=m+'*';
+    }
+    return m+'e';
+}
+let longMsg = createString(1023);
+let largeMeta = createString(128*1024);
+let eMessage = Error(longMsg);
+console.log(longMsg.length);
+export default class DemoButton extends Component {
     render(){
-        return (
-            <View style={{alignItems: 'center', marginTop: 10}}>
-                <Button
-                title="from chenrui"
-                color="#876543"
-                onPress={()=>{
-                    try{
+        return(
+            <ScrollView style={styles.container}>
+                    <CustomButton title="meta data special charactor" onPress={()=>{try{
+                        throw new ValidationError("ValidationError test msg")
+                      }catch(e){newlensClient.notify(e,{'key':'a123_！#￥……*（）keyValue_@&#%_\n_\\'})}}} />
+                    <CustomButton title="exception no stack" style={styles.button} onPress={()=>{try{
                         throw new MyError()
                       }catch(e){
                         console.log(e.name+":"+e.message)
                         console.log(e.stack)
-                        newlensClient.notify(e,{'key':'a123_keyValue_@&#%_\n_\\'})
-                      
-                      }
-                }}/>
-            </View>
-        );
-    }
-}
-class MButton extends Button{
-    render(){
-        return (
-            <View style={{alignItems: 'center', marginTop: 10}}>
-                <Button
-                title={this.props.title}
-                color="#000543"
-                onPress={()=>{
-                    try{
-                        throw new ValidationError("ValidationError test msg")
-                      }catch(e){
-                        console.log(e.name+":"+e.message)
-                        console.log(e.stack)
-                        newlensClient.notify(e,{'key':'a123_keyValue_@&#%_\n_\\'})
-                      
-                      }
-                }}/>
-            </View>
-        );
-    }
-}
-export default class DemoButton extends Component {
-    render(){
-        return(
-            <View style={{alignItems: 'center'}}>
-                    <CustomButton title='6666' />
-                    <CRButton />
-                    <MButton title="123"/>
+                        newlensClient.notify(e,meta)
+                      }}} />
+                    <CustomButton title="meta value=this.props.title" onPress={()=>{newlensClient.notify(e,{"key":this.props.title})}} />
+                    <CustomButton title="meta={}" onPress={()=>{newlensClient.notify(e,{})}} />
+                    <CustomButton title="long message" onPress={()=>{newlensClient.notify(eMessage,meta)}} />
+                    <CustomButton title="meta value null" onPress={()=>{newlensClient.notify(e,{"key":null})}} />
+                    <CustomButton title="uncaught exception?" 
+                     onPress={()=>{
+                         try{
+                             console.log(abc)
+                         }catch(ee){newlensClient.notify(ee,meta)}
+                        } }/>
+                    <CustomButton title="large meta string" onPress={()=>{newlensClient.notify(e,{"key":largeMeta})}} />
+                    <CustomButton title="100 errors" onPress={()=>{
+                        for(let j=0;j<100;j++){
+                            newlensClient.notify(e,meta)
+                        }
+                    }
+                       } />
 
-            </View>
+            </ScrollView>
         );
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+      paddingTop: 20,
+      //alignItems: 'center'
+    }
+  });

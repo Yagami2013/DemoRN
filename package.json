@@ -10,9 +10,9 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "hopezjy": "^3.0.12",
     "react": "^16.9.0",
     "react-native": "0.61.5",
+    "react-native-tingyunApp": "1.0.0",
     "typescript": "3.6.0-beta"
   },
   "devDependencies": {

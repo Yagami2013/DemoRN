@@ -9,8 +9,10 @@ import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
-import com.newlens.android.NewlensRNModule;
 
+
+import com.reactlibrary.RNTingyunAppPackage;
+import com.reactlibrary.RNTingyunAppModule;
 public class MainApplication extends Application implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost =
@@ -24,6 +26,7 @@ public class MainApplication extends Application implements ReactApplication {
         protected List<ReactPackage> getPackages() {
           @SuppressWarnings("UnnecessaryLocalVariable")
           List<ReactPackage> packages = new PackageList(this).getPackages();
+          packages.add(new RNTingyunAppPackage());
           // Packages that cannot be autolinked yet can be added manually here, for example:
           // packages.add(new MyReactNativePackage());
           return packages;
@@ -44,7 +47,7 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     //NewlensRNModule.startInNative("094e27493fb54536bee392598b1a4544","redirect.networkbench.com",false,this.getApplicationContext());
-    NewlensRNModule.startInNative("017f459cfc3a487e9bdc0264cb8ba511","192.168.2.100:8081",true,this.getApplicationContext());
+      RNTingyunAppModule.startInNative("017f459cfc3a487e9bdc0264cb8ba511","192.168.2.100:8081",true,this.getApplicationContext());
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this); // Remove this line if you don't want Flipper enabled
   }
