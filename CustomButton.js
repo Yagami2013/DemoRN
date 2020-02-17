@@ -2,6 +2,9 @@ import React,{Component} from 'react';
 import {Button,AppRegistry,View,ScrollView,StyleSheet} from 'react-native';
 import RNTingyunApp from 'react-native-tingyunApp';
 const newlensClient=new RNTingyunApp();
+
+//const newlensClient = new NBSAppAgent();
+
 // import{Newlens,} from 'hopezjy';
 // const newlensClient = new Newlens();
 
@@ -55,28 +58,42 @@ export default class DemoButton extends Component {
             <ScrollView style={styles.container}>
                     <CustomButton title="meta data special charactor" onPress={()=>{try{
                         throw new ValidationError("ValidationError test msg")
-                      }catch(e){newlensClient.notify(e,{'key':'a123_！#￥……*（）keyValue_@&#%_\n_\\'})}}} />
+                      }catch(e){
+                          newlensClient.reportError("2020-2-17:test msg",e,{'key':'a123_！#￥……*（）keyValue_@&#%_\n_\\'});
+                        }}} />
                     <CustomButton title="exception no stack" style={styles.button} onPress={()=>{try{
                         throw new MyError()
                       }catch(e){
                         console.log(e.name+":"+e.message)
                         console.log(e.stack)
-                        newlensClient.notify(e,meta)
+                        //newlensClient.notify(e,meta)
                       }}} />
-                    <CustomButton title="meta value=this.props.title" onPress={()=>{newlensClient.notify(e,{"key":this.props.title})}} />
-                    <CustomButton title="meta={}" onPress={()=>{newlensClient.notify(e,{})}} />
-                    <CustomButton title="long message" onPress={()=>{newlensClient.notify(eMessage,meta)}} />
-                    <CustomButton title="meta value null" onPress={()=>{newlensClient.notify(e,{"key":null})}} />
+                    <CustomButton title="meta value=this.props.title" onPress={()=>{
+                        //newlensClient.notify(e,{"key":this.props.title});
+                        }} />
+                    <CustomButton title="meta={}" onPress={()=>{
+                        //newlensClient.notify(e,{});
+                        }} />
+                    <CustomButton title="long message" onPress={()=>{
+                        //newlensClient.notify(eMessage,meta);
+                    }} />
+                    <CustomButton title="meta value null" onPress={()=>{
+                        //newlensClient.notify(e,{"key":null});
+                    }} />
                     <CustomButton title="uncaught exception?" 
                      onPress={()=>{
                          try{
                              console.log(abc)
-                         }catch(ee){newlensClient.notify(ee,meta)}
+                         }catch(ee){
+                             //newlensClient.notify(ee,meta);
+                            }
                         } }/>
-                    <CustomButton title="large meta string" onPress={()=>{newlensClient.notify(e,{"key":largeMeta})}} />
+                    <CustomButton title="large meta string" onPress={()=>{
+                        //newlensClient.notify(e,{"key":largeMeta});
+                    }} />
                     <CustomButton title="100 errors" onPress={()=>{
                         for(let j=0;j<100;j++){
-                            newlensClient.notify(e,meta)
+                            //newlensClient.notify(e,meta)
                         }
                     }
                        } />
