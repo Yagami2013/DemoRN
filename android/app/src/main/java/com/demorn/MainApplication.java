@@ -45,8 +45,8 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
-    //NewlensRNModule.startInNative("094e27493fb54536bee392598b1a4544","redirect.networkbench.com",false,this.getApplicationContext());
-      RNTingyunAppModule.startInNative("017f459cfc3a487e9bdc0264cb8ba511","192.168.2.100:8081",true,getApplicationContext());
+    //NewlensRNModule.startInNative("","",false,this.getApplicationContext());
+    //RNTingyunAppModule.startInNative("","192.168.2",true,getApplicationContext());
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this); // Remove this line if you don't want Flipper enabled
   }
